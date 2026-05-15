@@ -14,22 +14,57 @@ usage() {
 }
 
 ensure_docker_running() {
-    if ! systemctl is-active --quiet docker; then
-        echo "Docker não está ativo. Iniciando..."
-        sudo systemctl start docker
-        echo -n "Aguardando Docker iniciar"
-        for i in $(seq 1 10); do
-            sleep 1
-            echo -n "."
-            if systemctl is-active --quiet docker; then
-                echo " OK"
-                return 0
-            fi
-        done
-        echo ""
-        echo "Erro: Docker não iniciou a tempo." >&2
-        exit 1
+    local os
+    case "$(uname -s)" in
+        Linux*)              os="linux" ;;
+        Darwin*)             os="macos" ;;
+        MINGW*|MSYS*|CYGWIN*) os="windows" ;;
+        *)                   os="unknown" ;;
+    esac
+
+    if docker info &>/dev/null; then
+        return 0
     fi
+
+    case "$os" in
+        linux)
+            echo "Docker não está ativo. Iniciando..."
+            sudo systemctl start docker
+            echo -n "Aguardando Docker iniciar"
+            for i in $(seq 1 10); do
+                sleep 1
+                echo -n "."
+                if docker info &>/dev/null; then
+                    echo " OK"
+                    return 0
+                fi
+            done
+            echo ""
+            echo "Erro: Docker não iniciou a tempo." >&2
+            exit 1
+            ;;
+        macos)
+            echo "Docker não está ativo. Iniciando Docker Desktop..."
+            open -a Docker
+            echo -n "Aguardando Docker iniciar"
+            for i in $(seq 1 15); do
+                sleep 2
+                echo -n "."
+                if docker info &>/dev/null; then
+                    echo " OK"
+                    return 0
+                fi
+            done
+            echo ""
+            echo "Erro: Docker Desktop não iniciou a tempo." >&2
+            exit 1
+            ;;
+        windows|*)
+            echo "Docker não está respondendo." >&2
+            echo "Por favor, inicie o Docker Desktop manualmente e tente novamente." >&2
+            exit 1
+            ;;
+    esac
 }
 
 is_container_running() {
