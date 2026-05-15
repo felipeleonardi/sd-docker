@@ -3,6 +3,10 @@ FROM nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
 
+# Pin PyTorch to cu124 — compatible with CUDA 12.4+ drivers (≥550.xx on Linux, ≥560.xx on Windows).
+# Prevents WebUI Forge from auto-selecting a newer torch that requires CUDA 12.8+.
+ENV TORCH_COMMAND="pip install torch==2.5.1+cu124 torchvision==0.20.1+cu124 --extra-index-url https://download.pytorch.org/whl/cu124"
+
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     python3.10 \
@@ -17,6 +21,7 @@ RUN apt-get update && apt-get install -y \
     libgomp1 \
     libcairo2-dev \
     pkg-config \
+    libtcmalloc-minimal4 \
     && rm -rf /var/lib/apt/lists/*
 
 # Make python3.10 the default
