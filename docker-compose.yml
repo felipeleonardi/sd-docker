@@ -1,0 +1,25 @@
+services:
+  forge:
+    build: .
+    image: stable-diffusion-forge
+    container_name: sd-forge
+    ports:
+      - "7860:7860"
+    volumes:
+      - ./models:/app/models
+      - ./outputs:/app/outputs
+      - ./embeddings:/app/embeddings
+      - ./extensions:/app/extensions
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: unless-stopped
+    stdin_open: false
+    tty: false

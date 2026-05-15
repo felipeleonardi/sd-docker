@@ -1,0 +1,38 @@
+# Modelos (arquivos grandes — não versionar)
+models/Stable-diffusion/*
+models/Lora/*
+models/VAE/*
+models/VAE-approx/*
+models/ControlNet/*
+models/hypernetworks/*
+models/GFPGAN/*
+models/Codeformer/*
+models/RealESRGAN/*
+!models/**/.gitkeep
+
+# Imagens geradas
+outputs/*
+!outputs/.gitkeep
+
+# Embeddings / Textual Inversions
+embeddings/*
+!embeddings/.gitkeep
+
+# Extensões instaladas em runtime
+extensions/*
+!extensions/.gitkeep
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+
+# Cache e logs do Docker
+*.log
+
+# Temporários e arquivos locais
+tmp/
+exec-prompt.md
