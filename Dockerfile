@@ -38,9 +38,6 @@ RUN git clone https://github.com/lllyasviel/stable-diffusion-webui-forge.git /ap
 
 WORKDIR /app
 
-COPY --chown=forge:forge entrypoint.sh /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
-
 # Create volume directories with correct ownership
 RUN mkdir -p /app/models/Stable-diffusion \
              /app/models/Lora \
@@ -66,6 +63,11 @@ RUN python3 -m venv /app/venv \
     && /app/venv/bin/pip install --no-build-isolation \
         "https://github.com/openai/CLIP/archive/d50d76daa670286dd6cacf3bcd80b5e4823fc8e1.zip" \
     && /app/venv/bin/pip install --upgrade "pillow>=10.0.0"
+
+# Copy entrypoint after the venv layer — keeps the expensive cache above intact
+# on future entrypoint-only changes. sed strips Windows CRLF line endings.
+COPY --chown=forge:forge entrypoint.sh /app/entrypoint.sh
+RUN sed -i 's/\r$//' /app/entrypoint.sh && chmod +x /app/entrypoint.sh
 
 EXPOSE 7860
 
