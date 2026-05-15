@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="tmp/sd.png" alt="Stable Diffusion" width="600"/>
+  <img src="images/sd.png" alt="Stable Diffusion" width="600"/>
 </div>
 
 # Stable Diffusion WebUI Forge — Docker com GPU NVIDIA
@@ -15,6 +15,7 @@ Rode o [Stable Diffusion WebUI Forge](https://github.com/lllyasviel/stable-diffu
 - [Como Iniciar o Projeto](#como-iniciar-o-projeto)
 - [Como Usar o Stable Diffusion](#como-usar-o-stable-diffusion)
 - [Instalação de Git e Docker](#instalação-de-git-e-docker)
+- [Comandos Essenciais de Git e Docker](#comandos-essenciais-de-git-e-docker)
 - [Como Contribuir](#como-contribuir)
 - [Como Abrir um Bug](#como-abrir-um-bug)
 
@@ -205,6 +206,19 @@ Guia passo a passo para instalar as ferramentas necessárias no seu sistema oper
 **[docs/instalacao-git-docker.md](docs/instalacao-git-docker.md)**
 
 Cobre Windows, macOS e Linux (Ubuntu/Debian, Arch, Fedora), incluindo a instalação do NVIDIA Container Toolkit.
+
+---
+
+## Comandos Essenciais de Git e Docker
+
+Referência rápida dos comandos mais usados no dia a dia do projeto:
+
+**[docs/comandos-git-docker.md](docs/comandos-git-docker.md)**
+
+Inclui:
+- Comandos Git: clone, status, add, commit, push, pull, branch
+- Comandos Docker: ps, logs, exec, up, down, build, prune, stats
+- Tabela de equivalência entre `sd.sh` e Docker Compose
 
 ---
 

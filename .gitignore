@@ -1,4 +1,6 @@
 # Modelos (arquivos grandes — não versionar)
+models/diffusers/
+models/ControlNetPreprocessor/
 models/Stable-diffusion/*
 models/Lora/*
 models/VAE/*
